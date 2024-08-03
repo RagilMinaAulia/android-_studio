@@ -108,4 +108,15 @@ public class MainActivity extends AppCompatActivity {
             pesan("data kosong");
         }
     }
+
+    public void deleteData(String id){
+        String idbarang = id;
+        String sql = "DELETE FROM tblbarang WHERE idbarang = "+idbarang+"";
+        if (db.runSQL(sql)){
+            pesan("data sudah dihapus");
+            selectData();
+        }else {
+            pesan("data tidak bisa dihapus");
+        }
+    }
 }
