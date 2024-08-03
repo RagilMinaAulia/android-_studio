@@ -1,6 +1,7 @@
 package com.komputerkit.sqlitedatabase;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -121,13 +123,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteData(String id){
         String idbarang = id;
-        String sql = "DELETE FROM tblbarang WHERE idbarang = "+idbarang+";";
-        if (db.runSQL(sql)){
-            pesan("data sudah dihapus");
-            selectData();
-        }else {
-            pesan("data tidak bisa dihapus");
-        }
+
+        AlertDialog.Builder al = new AlertDialog.Builder(this);
+        al.setTitle("Peringatan!!!");
+        al.setMessage("Yakin mau dihapus???");
+        al.setPositiveButton("YA", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "DELETE FROM tblbarang WHERE idbarang = "+idbarang+";";
+                if (db.runSQL(sql)){
+                    pesan("data sudah dihapus");
+                    selectData();
+                }else {
+                    pesan("data tidak bisa dihapus");
+                }
+            }
+        });
+
+        al.setNegativeButton("TIDAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        al.show();
     }
 
     @SuppressLint("Range")
