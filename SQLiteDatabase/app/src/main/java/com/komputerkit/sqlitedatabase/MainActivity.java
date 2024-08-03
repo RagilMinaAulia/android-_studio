@@ -77,7 +77,15 @@ public class MainActivity extends AppCompatActivity {
                     pesan("insert gagal");
                 }
             }else{
-                pesan("update");
+                String sql = "UPDATE tblbarang\n" +
+                        "SET barang = \'"+barang+"', stok = "+stok+", harga = "+harga+"\n" +
+                        "WHERE idbarang = "+idbarang+"";
+                if (db.runSQL(sql)){
+                    pesan("data sudah diubah");
+                    selectData();
+                }else {
+                    pesan("data tidak bisa diubah");
+                }
             }
         }
         etBarang.setText("");
